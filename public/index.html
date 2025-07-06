@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contrôle OpenVPN - Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Écran de connexion -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-container">
+            <div class="login-header">
+                <i class="fas fa-shield-alt"></i>
+                <h1>Contrôle OpenVPN</h1>
+            </div>
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="username">Nom d'utilisateur</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Se connecter
+                </button>
+            </form>
+            <div id="loginError" class="error-message" style="display: none;"></div>
+        </div>
+    </div>
+
+    <!-- Dashboard principal -->
+    <div id="dashboard" class="dashboard" style="display: none;">
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-shield-alt"></i> Dashboard OpenVPN</h1>
+                <div class="header-actions">
+                    <span id="lastUpdate" class="last-update"></span>
+                    <button id="refreshBtn" class="btn btn-secondary">
+                        <i class="fas fa-sync-alt"></i>
+                        Actualiser
+                    </button>
+                    <button id="logoutBtn" class="btn btn-danger">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Déconnexion
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Statut du serveur -->
+            <div class="status-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-server"></i> Statut du Serveur VPN</h2>
+                </div>
+                <div class="card-content">
+                    <div class="status-info">
+                        <div class="status-indicator" id="statusIndicator">
+                            <i class="fas fa-question-circle"></i>
+                            <span id="statusText">Vérification...</span>
+                        </div>
+                        <div class="server-details">
+                            <div class="detail-item">
+                                <label>Container:</label>
+                                <span id="containerName">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <label>Ports:</label>
+                                <span id="containerPorts">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <label>Dernière vérification:</label>
+                                <span id="lastCheck">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions de contrôle -->
+            <div class="control-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-cogs"></i> Actions de Contrôle</h2>
+                </div>
+                <div class="card-content">
+                    <div class="control-buttons">
+                        <button id="startBtn" class="btn btn-success" disabled>
+                            <i class="fas fa-play"></i>
+                            Démarrer
+                        </button>
+                        <button id="stopBtn" class="btn btn-warning" disabled>
+                            <i class="fas fa-stop"></i>
+                            Arrêter
+                        </button>
+                        <button id="restartBtn" class="btn btn-info" disabled>
+                            <i class="fas fa-redo"></i>
+                            Redémarrer
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Logs du container -->
+            <div class="logs-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-file-alt"></i> Logs du Container</h2>
+                    <div class="card-actions">
+                        <select id="logLines" class="form-select">
+                            <option value="25">25 lignes</option>
+                            <option value="50" selected>50 lignes</option>
+                            <option value="100">100 lignes</option>
+                            <option value="200">200 lignes</option>
+                        </select>
+                        <button id="refreshLogsBtn" class="btn btn-secondary">
+                            <i class="fas fa-sync-alt"></i>
+                            Actualiser
+                        </button>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <pre id="logsContent" class="logs-content">Chargement des logs...</pre>
+                </div>
+            </div>
+        </main>
+
+        <!-- Messages de notification -->
+        <div id="notification" class="notification" style="display: none;">
+            <div class="notification-content">
+                <span id="notificationText"></span>
+                <button id="closeNotification" class="notification-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

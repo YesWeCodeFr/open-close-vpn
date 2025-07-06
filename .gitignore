@@ -1,0 +1,41 @@
+# Dépendances Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Fichiers de configuration sensibles
+.env
+.env.local
+.env.production
+
+# Logs
+logs/
+*.log
+
+# Fichiers temporaires
+tmp/
+temp/
+
+# Fichiers de l'IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Clés SSH (si stockées localement)
+*.pem
+*.key
+id_rsa*
+
+# Fichiers de sauvegarde
+*.backup
+*.bak
+
+# Dossier de build
+dist/
+build/

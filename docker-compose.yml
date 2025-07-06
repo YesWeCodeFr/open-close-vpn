@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  vpn-controller:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - WEB_PORT=3000
+      - WEB_USERNAME=${WEB_USERNAME:-admin}
+      - WEB_PASSWORD=${WEB_PASSWORD:-changeme}
+      - VPN_SERVER_HOST=${VPN_SERVER_HOST}
+      - VPN_SERVER_PORT=${VPN_SERVER_PORT:-22}
+      - VPN_SERVER_USER=${VPN_SERVER_USER}
+      - VPN_SERVER_PASSWORD=${VPN_SERVER_PASSWORD}
+      - VPN_SERVER_KEY_PATH=${VPN_SERVER_KEY_PATH}
+      - VPN_CONTAINER_NAME=${VPN_CONTAINER_NAME:-openvpn-server}
+    volumes:
+      # Si vous utilisez une clé SSH, montez le répertoire des clés
+      - ~/.ssh:/home/nodeuser/.ssh:ro
+    restart: unless-stopped
+    networks:
+      - vpn-control
+
+networks:
+  vpn-control:
+    driver: bridge
