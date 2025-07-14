@@ -42,7 +42,7 @@ setup_firewall() {
     echo "🔥 Configuration du firewall..."
     
     if command -v ufw &> /dev/null; then
-        sudo ufw allow 3000/tcp
+        sudo ufw allow 3001/tcp
         if [ "$ENVIRONMENT" = "production" ]; then
             sudo ufw allow 80/tcp
             sudo ufw allow 443/tcp
@@ -111,7 +111,7 @@ deploy_application() {
     sleep 15
     
     # Vérifier que l'application répond
-    if curl -f -s http://localhost:3000 > /dev/null; then
+    if curl -f -s http://localhost:3001 > /dev/null; then
         echo "✅ Application démarrée avec succès"
     else
         echo "❌ L'application ne répond pas"
@@ -140,7 +140,7 @@ server {
     server_name _;
     
     location / {
-        proxy_pass http://localhost:3000;
+        proxy_pass http://localhost:3001;
         proxy_http_version 1.1;
         proxy_set_header Upgrade \$http_upgrade;
         proxy_set_header Connection 'upgrade';
@@ -216,7 +216,7 @@ echo "1. Containers Docker:"
 docker compose ps
 echo
 echo "2. Test HTTP:"
-curl -s -o /dev/null -w "Code de réponse: %{http_code}\n" http://localhost:3000
+curl -s -o /dev/null -w "Code de réponse: %{http_code}\n" http://localhost:3001
 echo
 echo "3. Utilisation ressources:"
 docker stats --no-stream --format "table {{.Container}}\t{{.CPUPerc}}\t{{.MemUsage}}"
@@ -294,7 +294,7 @@ main() {
     if [ "$ENVIRONMENT" = "production" ]; then
         echo "   - http://$(hostname -I | awk '{print $1}') (via NGINX)"
     fi
-    echo "   - http://$(hostname -I | awk '{print $1}'):3000 (direct)"
+    echo "   - http://$(hostname -I | awk '{print $1}'):3001 (direct)"
     echo ""
     echo "🔑 Identifiants de connexion :"
     source .env

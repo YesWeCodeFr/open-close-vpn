@@ -112,7 +112,7 @@ Ce script fait automatiquement :
 ### 3.2 Validation du déploiement
 ```bash
 # Vérifier que l'application fonctionne
-curl http://localhost:3000
+curl http://localhost:3001
 
 # Voir les logs
 docker compose logs -f
@@ -124,7 +124,7 @@ docker compose ps
 ## PHASE 4 : Accès et utilisation
 
 ### 4.1 URLs d'accès
-- **Direct :** `http://votre-serveur:3000`
+- **Direct :** `http://votre-serveur:3001`
 - **Via NGINX :** `http://votre-serveur` (port 80)
 
 ### 4.2 Identifiants
@@ -202,7 +202,7 @@ sudo ufw allow from IP_AUTORISEE to any port 443
 ### Problème : Application inaccessible
 ```bash
 # Vérifier les ports
-netstat -tlnp | grep :3000
+netstat -tlnp | grep :3001
 
 # Vérifier les logs
 docker compose logs

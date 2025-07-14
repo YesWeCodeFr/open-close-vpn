@@ -109,9 +109,12 @@ docker compose version
 - [ ] `docker compose version` fonctionne
 - [ ] `./test-docker-compose.sh` réussit
 - [ ] `./pre-deploy-check.sh` réussit
+- [ ] `./test-ports.sh` réussit
+- [ ] Application accessible sur port 3001
 - [ ] Tous les scripts utilisent `docker compose`
 - [ ] Documentation mise à jour
 - [ ] Tâches VS Code mises à jour
+- [ ] Configuration des ports mise à jour
 
 ## 🚀 Déploiement
 

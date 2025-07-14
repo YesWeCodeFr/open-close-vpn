@@ -101,11 +101,11 @@ echo "🌐 3. Vérification réseau"
 echo "------------------------"
 
 # Vérifier les ports
-PORT_3000=$(netstat -tlnp 2>/dev/null | grep :3000 || true)
-if [ -z "$PORT_3000" ]; then
-    success "Port 3000 disponible"
+PORT_3001=$(netstat -tlnp 2>/dev/null | grep :3001 || true)
+if [ -z "$PORT_3001" ]; then
+    success "Port 3001 disponible"
 else
-    warning "Port 3000 déjà utilisé: $PORT_3000"
+    warning "Port 3001 déjà utilisé: $PORT_3001"
 fi
 
 # Connectivité Internet

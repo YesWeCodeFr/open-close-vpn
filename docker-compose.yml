@@ -4,7 +4,7 @@ services:
   vpn-controller:
     build: .
     ports:
-      - "3000:3000"
+      - "${WEB_HOST_PORT:-3001}:3000"
     environment:
       - NODE_ENV=production
       - WEB_PORT=3000

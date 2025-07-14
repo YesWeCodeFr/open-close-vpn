@@ -65,7 +65,7 @@ sleep 5
 if docker compose ps | grep -q "Up"; then
     echo "✅ Application démarrée avec succès !"
     echo ""
-    echo "🌐 Interface web disponible sur : http://localhost:3000"
+    echo "🌐 Interface web disponible sur : http://localhost:3001"
     echo "📚 Consultez le README.md pour plus d'informations"
     echo ""
     echo "🔧 Commandes utiles :"

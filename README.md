@@ -62,6 +62,7 @@ VPN_CONTAINER_NAME=openvpn-server
 
 # Configuration de l'application web
 WEB_PORT=3000
+WEB_HOST_PORT=3001
 WEB_USERNAME=admin
 WEB_PASSWORD=your-secure-password
 ```
@@ -113,7 +114,7 @@ VPN_SERVER_KEY_PATH=/root/.ssh/vpn_control_key
 
 ## 🌐 Utilisation
 
-1. **Accéder à l'interface** : `http://serveur-a:3000`
+1. **Accéder à l'interface** : `http://serveur-a:3001`
 2. **Se connecter** avec les identifiants configurés
 3. **Surveiller** le statut du serveur OpenVPN
 4. **Contrôler** le container (Start/Stop/Restart)
@@ -138,7 +139,7 @@ server {
     ssl_certificate_key /path/to/key.pem;
     
     location / {
-        proxy_pass http://localhost:3000;
+        proxy_pass http://localhost:3001;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -216,16 +217,16 @@ open-close-vpn/
 
 ```bash
 # Authentification
-curl -X POST http://localhost:3000/api/login \
+curl -X POST http://localhost:3001/api/login \
   -H "Content-Type: application/json" \
   -d '{"username":"admin","password":"password"}'
 
 # Statut du VPN
-curl -X GET http://localhost:3000/api/vpn/status \
+curl -X GET http://localhost:3001/api/vpn/status \
   -H "Authorization: Bearer <token>"
 
 # Démarrer le VPN
-curl -X POST http://localhost:3000/api/vpn/start \
+curl -X POST http://localhost:3001/api/vpn/start \
   -H "Authorization: Bearer <token>"
 ```
 

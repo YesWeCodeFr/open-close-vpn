@@ -44,8 +44,8 @@ docker compose version
 
 #### 1.3 Configuration du firewall
 ```bash
-# Ouvrir le port 3000 (ou votre port choisi)
-sudo ufw allow 3000/tcp
+# Ouvrir le port 3001 (port hôte de l'application)
+sudo ufw allow 3001/tcp
 
 # Si vous utilisez NGINX en proxy (recommandé)
 sudo ufw allow 80/tcp
@@ -113,7 +113,7 @@ docker compose ps
 docker compose logs -f
 
 # Tester l'accès web
-curl -I http://localhost:3000
+curl -I http://localhost:3001
 
 # Vérifier les processus
 docker compose top
@@ -144,7 +144,7 @@ server {
     # return 301 https://$server_name$request_uri;
 
     location / {
-        proxy_pass http://localhost:3000;
+        proxy_pass http://localhost:3001;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';
@@ -257,7 +257,7 @@ echo -e "\n2. État NGINX:"
 sudo systemctl status nginx --no-pager
 
 echo -e "\n3. Test de connectivité:"
-curl -s -o /dev/null -w "Code HTTP: %{http_code}\n" http://localhost:3000
+curl -s -o /dev/null -w "Code HTTP: %{http_code}\n" http://localhost:3001
 
 echo -e "\n4. Utilisation des ressources:"
 docker stats --no-stream
