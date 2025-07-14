@@ -70,13 +70,13 @@ WEB_PASSWORD=your-secure-password
 
 ```bash
 # Construction et démarrage
-docker-compose up -d
+docker compose up -d
 
 # Vérifier le statut
-docker-compose ps
+docker compose ps
 
 # Voir les logs
-docker-compose logs -f
+docker compose logs -f
 ```
 
 ### 4. Déploiement manuel (sans Docker)
@@ -172,10 +172,10 @@ server {
 ### Logs de débogage
 ```bash
 # Logs de l'application
-docker-compose logs vpn-controller
+docker compose logs vpn-controller
 
 # Logs détaillés
-docker-compose logs -f --tail=100 vpn-controller
+docker compose logs -f --tail=100 vpn-controller
 ```
 
 ## 📁 Structure du projet
@@ -192,7 +192,7 @@ open-close-vpn/
 │   └── app.js
 ├── services/            # Services (SSH, etc.)
 │   └── sshService.js
-├── docker-compose.yml   # Configuration Docker
+├── docker compose.yml   # Configuration Docker
 ├── Dockerfile
 ├── package.json
 ├── server.js           # Point d'entrée

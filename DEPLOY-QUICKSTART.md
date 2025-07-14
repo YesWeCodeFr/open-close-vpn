@@ -82,11 +82,7 @@ sudo usermod -aG docker $USER
 newgrp docker
 ```
 
-**Docker Compose manquant :**
-```bash
-sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
-```
+**Note :** Docker moderne inclut Docker Compose intégré. Si vous avez une version ancienne de Docker, mettez-la à jour.
 
 **Problème SSH :**
 ```bash
@@ -119,10 +115,10 @@ Ce script fait automatiquement :
 curl http://localhost:3000
 
 # Voir les logs
-docker-compose logs -f
+docker compose logs -f
 
 # Vérifier les containers
-docker-compose ps
+docker compose ps
 ```
 
 ## PHASE 4 : Accès et utilisation
@@ -153,16 +149,16 @@ docker-compose ps
 ### 5.2 Commandes utiles
 ```bash
 # Redémarrer l'application
-docker-compose restart
+docker compose restart
 
 # Voir les logs en temps réel
-docker-compose logs -f
+docker compose logs -f
 
 # Arrêter temporairement
-docker-compose stop
+docker compose stop
 
 # Redémarrer avec reconstruction
-docker-compose up -d --build
+docker compose up -d --build
 
 # Vérifier l'état du service système
 sudo systemctl status vpn-controller
@@ -179,7 +175,7 @@ nano .env
 WEB_PASSWORD=votre_mot_de_passe_securise
 
 # Redémarrer
-docker-compose restart
+docker compose restart
 ```
 
 ### 6.2 Configuration SSL (optionnel)
@@ -209,10 +205,10 @@ sudo ufw allow from IP_AUTORISEE to any port 443
 netstat -tlnp | grep :3000
 
 # Vérifier les logs
-docker-compose logs
+docker compose logs
 
 # Redémarrer
-docker-compose restart
+docker compose restart
 ```
 
 ### Problème : Erreur SSH vers OpenVPN
@@ -253,7 +249,7 @@ docker ps -a | grep openvpn
 
 En cas de problème :
 
-1. **Consulter les logs :** `docker-compose logs -f`
+1. **Consulter les logs :** `docker compose logs -f`
 2. **Vérifier l'état :** `./check-status.sh`
 3. **Tester SSH :** `./test-ssh.sh`
 4. **Consulter la documentation :** `cat deploy-guide.md`

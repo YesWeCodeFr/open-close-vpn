@@ -88,12 +88,12 @@ else
     error "Docker non installé"
 fi
 
-# Docker Compose
-if command -v docker-compose &> /dev/null; then
-    COMPOSE_VERSION=$(docker-compose --version | cut -d' ' -f3 | sed 's/,//')
-    success "Docker Compose installé: version $COMPOSE_VERSION"
+# Docker Compose (intégré dans Docker moderne)
+if docker compose version &> /dev/null; then
+    COMPOSE_VERSION=$(docker compose version --short 2>/dev/null || echo "intégré")
+    success "Docker Compose disponible: $COMPOSE_VERSION"
 else
-    error "Docker Compose non installé"
+    error "Docker Compose non disponible (mettez à jour Docker)"
 fi
 
 echo ""

@@ -28,17 +28,6 @@ check_prerequisites() {
         echo "✅ Docker déjà installé"
     fi
     
-    # Vérifier Docker Compose
-    if ! command -v docker-compose &> /dev/null; then
-        echo "❌ Docker Compose n'est pas installé"
-        echo "Installation de Docker Compose..."
-        sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-        sudo chmod +x /usr/local/bin/docker-compose
-        echo "✅ Docker Compose installé"
-    else
-        echo "✅ Docker Compose déjà installé"
-    fi
-    
     # Vérifier l'espace disque
     AVAILABLE_SPACE=$(df / | awk 'NR==2{print $4}')
     if [ $AVAILABLE_SPACE -lt 2097152 ]; then # 2GB en KB
@@ -110,12 +99,12 @@ deploy_application() {
     
     # Arrêter les anciens containers s'ils existent
     if [ -f docker-compose.yml ]; then
-        docker-compose down || true
+        docker compose down || true
     fi
     
     # Construction et démarrage
-    docker-compose build --no-cache
-    docker-compose up -d
+    docker compose build --no-cache
+    docker compose up -d
     
     # Attendre que l'application démarre
     echo "⏳ Attente du démarrage de l'application..."
@@ -127,7 +116,7 @@ deploy_application() {
     else
         echo "❌ L'application ne répond pas"
         echo "📋 Logs de débogage:"
-        docker-compose logs
+        docker compose logs
         return 1
     fi
 }
@@ -201,8 +190,8 @@ Type=oneshot
 RemainAfterExit=yes
 User=$USER
 WorkingDirectory=$PROJECT_DIR
-ExecStart=/usr/local/bin/docker-compose up -d
-ExecStop=/usr/local/bin/docker-compose down
+ExecStart=/usr/bin/docker compose up -d
+ExecStop=/usr/bin/docker compose down
 TimeoutStartSec=0
 
 [Install]
@@ -224,7 +213,7 @@ create_maintenance_scripts() {
 echo "=== État du VPN Controller - $(date) ==="
 echo
 echo "1. Containers Docker:"
-docker-compose ps
+docker compose ps
 echo
 echo "2. Test HTTP:"
 curl -s -o /dev/null -w "Code de réponse: %{http_code}\n" http://localhost:3000
@@ -233,7 +222,7 @@ echo "3. Utilisation ressources:"
 docker stats --no-stream --format "table {{.Container}}\t{{.CPUPerc}}\t{{.MemUsage}}"
 echo
 echo "4. Logs récents:"
-docker-compose logs --tail=5
+docker compose logs --tail=5
 EOF
     
     # Script de sauvegarde
@@ -266,9 +255,9 @@ if [ -d .git ]; then
 fi
 
 # Reconstruction et redémarrage
-docker-compose down
-docker-compose build --no-cache
-docker-compose up -d
+docker compose down
+docker compose build --no-cache
+docker compose up -d
 
 echo "Mise à jour terminée!"
 ./check-status.sh
@@ -318,8 +307,8 @@ main() {
     echo "   - ./update.sh        : Mettre à jour"
     echo ""
     echo "📋 Commandes utiles :"
-    echo "   - docker-compose logs -f  : Voir les logs"
-    echo "   - docker-compose restart  : Redémarrer"
+    echo "   - docker compose logs -f  : Voir les logs"
+    echo "   - docker compose restart  : Redémarrer"
     echo "   - sudo systemctl status vpn-controller : État du service"
     echo ""
     

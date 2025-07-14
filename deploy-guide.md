@@ -19,7 +19,10 @@ free -h
 netstat -tlnp | grep :3000
 ```
 
-#### 1.2 Installation de Docker et Docker Compose
+#### 1.2 Installation de Docker
+
+**Note importante :** Docker moderne (20.10.13+) inclut Docker Compose intégré. Plus besoin d'installer `docker compose` séparément !
+
 ```bash
 # Mise à jour du système
 sudo apt update && sudo apt upgrade -y
@@ -31,16 +34,12 @@ sudo sh get-docker.sh
 # Ajouter l'utilisateur au groupe docker
 sudo usermod -aG docker $USER
 
-# Installation de Docker Compose
-sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
-
 # Redémarrer la session pour prendre en compte les groupes
 newgrp docker
 
-# Vérifier les installations
+# Vérifier l'installation
 docker --version
-docker-compose --version
+docker compose version
 ```
 
 #### 1.3 Configuration du firewall
@@ -101,23 +100,23 @@ chmod 600 /home/yeswecode/.ssh/id_rsa
 ./install.sh
 
 # Ou méthode manuelle :
-docker-compose build
-docker-compose up -d
+docker compose build
+docker compose up -d
 ```
 
 #### 3.2 Vérification du déploiement
 ```bash
 # Vérifier que les containers tournent
-docker-compose ps
+docker compose ps
 
 # Voir les logs
-docker-compose logs -f
+docker compose logs -f
 
 # Tester l'accès web
 curl -I http://localhost:3000
 
 # Vérifier les processus
-docker-compose top
+docker compose top
 ```
 
 ### Phase 4 : Configuration de production avec NGINX
@@ -216,8 +215,8 @@ After=docker.service
 Type=oneshot
 RemainAfterExit=yes
 WorkingDirectory=/home/yeswecode/open-close-vpn
-ExecStart=/usr/local/bin/docker-compose up -d
-ExecStop=/usr/local/bin/docker-compose down
+ExecStart=/usr/bin/docker compose up -d
+ExecStop=/usr/bin/docker compose down
 TimeoutStartSec=0
 
 [Install]
@@ -252,7 +251,7 @@ echo
 # Vérifier Docker Compose
 echo "1. État Docker Compose:"
 cd /home/yeswecode/open-close-vpn
-docker-compose ps
+docker compose ps
 
 echo -e "\n2. État NGINX:"
 sudo systemctl status nginx --no-pager
@@ -264,7 +263,7 @@ echo -e "\n4. Utilisation des ressources:"
 docker stats --no-stream
 
 echo -e "\n5. Logs récents:"
-docker-compose logs --tail=10
+docker compose logs --tail=10
 ```
 
 #### 7.3 Automatisation des vérifications
@@ -296,7 +295,7 @@ mkdir -p $BACKUP_DIR
 # Sauvegarder la configuration
 tar -czf $BACKUP_DIR/vpn-controller-config-$DATE.tar.gz \
     /home/yeswecode/open-close-vpn/.env \
-    /home/yeswecode/open-close-vpn/docker-compose.yml \
+    /home/yeswecode/open-close-vpn/docker compose.yml \
     /etc/nginx/sites-available/vpn-controller
 
 echo "Sauvegarde créée: $BACKUP_DIR/vpn-controller-config-$DATE.tar.gz"
@@ -321,18 +320,18 @@ echo "=== Mise à jour VPN Controller ==="
 ./backup-vpn-controller.sh
 
 # Arrêter les services
-docker-compose down
+docker compose down
 
 # Récupérer les mises à jour
 git pull origin main
 
 # Reconstruire et redémarrer
-docker-compose build --no-cache
-docker-compose up -d
+docker compose build --no-cache
+docker compose up -d
 
 # Vérifier que tout fonctionne
 sleep 10
-docker-compose ps
+docker compose ps
 
 echo "Mise à jour terminée !"
 ```
@@ -358,10 +357,10 @@ echo "Mise à jour terminée !"
 
 ```bash
 # Redémarrer l'application
-docker-compose restart
+docker compose restart
 
 # Voir les logs en temps réel
-docker-compose logs -f
+docker compose logs -f
 
 # Mettre à jour l'application
 ./update-vpn-controller.sh
@@ -373,13 +372,13 @@ docker-compose logs -f
 ./backup-vpn-controller.sh
 
 # Arrêter temporairement
-docker-compose stop
+docker compose stop
 
 # Arrêter et supprimer
-docker-compose down
+docker compose down
 
 # Redémarrer avec reconstruction
-docker-compose up -d --build
+docker compose up -d --build
 ```
 
 ## 🚨 Dépannage courant
@@ -389,7 +388,7 @@ docker-compose up -d --build
 # Vérifier les ports
 netstat -tlnp | grep :3000
 # Vérifier les logs
-docker-compose logs
+docker compose logs
 # Vérifier le firewall
 sudo ufw status
 ```
